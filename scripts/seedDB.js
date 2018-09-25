@@ -11,7 +11,7 @@ mongoose.connect(
   }
 );
 
-const bookSeed = [
+const articleSeed = [
   {
     title: "The Dead Zone",
     author: "Stephen King",

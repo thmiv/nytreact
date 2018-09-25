@@ -69,19 +69,19 @@ class Articles extends Component {
                 placeholder="Title (required)"
               />
               <Input
-                value={this.state.author}
+                value={this.state.date}
                 onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
+                name="date"
+                placeholder="Date (required)"
               />
               <TextArea
-                value={this.state.synopsis}
+                value={this.state.url}
                 onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
+                name="url"
+                placeholder="URL (Optional)"
               />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
+                disabled={!(this.state.date && this.state.title && this.state.url)}
                 onClick={this.handleFormSubmit}
               >
                 Submit Form
@@ -98,7 +98,7 @@ class Articles extends Component {
                   <ListItem key={articles._id}>
                     <Link to={"/articles/" + articles._id}>
                       <strong>
-                        {articles.title} by {articles.date}
+                        {articles.title} on {articles.date}
                       </strong>
                     </Link>
                     <DeleteBtn onClick={() => this.deleteArticle(articles._id)} />
