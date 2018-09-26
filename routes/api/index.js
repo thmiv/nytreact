@@ -6,6 +6,6 @@ const nytSearch = require("./nytSearch")
 // routes
 router.use("/books", bookRoutes);
 router.use("/articles", articleRoutes);
-router.use("/search", nytSearch);
+//router.use("/search", nytSearch);
 
 module.exports = router;

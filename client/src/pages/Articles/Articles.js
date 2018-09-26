@@ -1,3 +1,5 @@
+//require("dotenv").config();
+import dotenv from "dotenv";
 import React, { Component } from "react";
 import DeleteBtn from "../../components/DeleteBtn";
 import Jumbotron from "../../components/Jumbotron";
@@ -6,13 +8,18 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
+const apiKeys = require("../../API-keys");
+const nytKey = apiKeys.NYTimes.key;
 
 class Articles extends Component {
   state = {
     articles: [],
     title: "",
     date: "",
-    url: ""
+    url: "",
+    searchQuery: "",
+    dateStart: "",
+    dateEnd: ""
   };
 
   componentDidMount() {
@@ -53,10 +60,33 @@ class Articles extends Component {
     }
   };
 
+  // makes the query url
+  makeQueryURL = (query, dateFirst, dateLast) => {
+    var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?";
+  
+    var queryParams = { "api-key": nytKey };
+  
+    queryParams.q = query;
+
+    var startYear = dateFirst;
+    if (parseInt(startYear)) {
+      queryParams.begin_date = startYear + "0101";
+    }
+
+    var endYear = dateLast;
+    if (parseInt(endYear)) {
+      queryParams.end_date = endYear + "0101";
+    }
+    console.log("---------------\nURL: " + queryURL + "\n---------------");
+    console.log(queryURL + queryParams);
+    return queryURL + queryParams;
+  }
+
   render() {
     return (
       <Container fluid>
         <Row>
+          {/* // query form */}
           <Col size="md-6">
             <Jumbotron>
               <h1>What Articles Should I Read?</h1>
@@ -88,7 +118,32 @@ class Articles extends Component {
               </FormBtn>
             </form>
           </Col>
+          {/* // Searched articles will go here */}
           <Col size="md-6 sm-12">
+            <Jumbotron>
+              <h1>Search Results</h1>
+            </Jumbotron>
+            {this.state.articles.length ? (
+              <List>
+                {this.state.articles.map(articles => (
+                  <ListItem key={articles._id}>
+                    <Link to={"/articles/" + articles._id}>
+                      <strong>
+                        {articles.title} on {articles.date}
+                      </strong>
+                    </Link>
+                    <DeleteBtn onClick={() => this.deleteArticle(articles._id)} />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
+          </Col>
+        </Row>
+        <Row>
+          {/* // saved articles */}
+        <Col size="md-6 sm-12">
             <Jumbotron>
               <h1>Articles On My List</h1>
             </Jumbotron>

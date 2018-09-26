@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Defining methods for the Controller 
+/* Defining methods for the Controller 
 module.exports = {
   searchApi: function(req, res) {
       let searchQuery = req.params.q;
@@ -22,3 +22,4 @@ module.exports = {
       });
   }
 };
+*/
